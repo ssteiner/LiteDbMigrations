@@ -1,6 +1,7 @@
 ﻿using LiteDbMigrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace LiteDbMigrationSample
 {
@@ -20,7 +21,8 @@ namespace LiteDbMigrationSample
                 //ToVersion = 0, 0 => initial version
                 ConnectionString = configuration.GetValue<string>("LiteDbConnectionString"), 
             };
-            var logger = GetMigrationLogger();
+            ILogger<LiteDbMigrationRunner> logger = new NullLogger<LiteDbMigrationRunner>();
+            //var logger = GetMigrationLogger();
             var migrationRunner = new LiteDbMigrationRunner(options, logger);
             migrationRunner.Run();
         }
